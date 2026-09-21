@@ -1,6 +1,7 @@
 from risk_engine import assess_risk
 
 patient = {
+    "age": 65,
     "bmi": 32,
     "systolic_bp": 150,
     "diastolic_bp": 95,

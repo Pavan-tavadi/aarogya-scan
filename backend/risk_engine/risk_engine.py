@@ -6,6 +6,16 @@ def assess_risk(patient_data):
     risk_factors = []
     recommendations = []
 
+    # Age
+    age = patient_data.get("age")
+    if age is not None and age >= 60:
+        score += RISK_RULES["senior_age"]
+        risk_factors.append("Age 60+")
+        recommendations.append(
+            "Regular preventive health checkups are recommended."
+        )
+
+    # BMI
     bmi = patient_data.get("bmi")
     if bmi is not None and bmi >= 30:
         score += RISK_RULES["high_bmi"]
@@ -14,6 +24,7 @@ def assess_risk(patient_data):
             "Maintain healthy weight through diet and exercise."
         )
 
+    # Blood Pressure
     systolic = patient_data.get("systolic_bp")
     diastolic = patient_data.get("diastolic_bp")
 
@@ -25,6 +36,7 @@ def assess_risk(patient_data):
                 "Monitor blood pressure regularly."
             )
 
+    # Blood Glucose
     glucose = patient_data.get("blood_glucose")
     if glucose and glucose >= 126:
         score += RISK_RULES["high_blood_glucose"]
@@ -33,6 +45,7 @@ def assess_risk(patient_data):
             "Check blood sugar levels regularly."
         )
 
+    # Heart Rate
     heart_rate = patient_data.get("heart_rate")
     if heart_rate and heart_rate > 100:
         score += RISK_RULES["high_heart_rate"]
@@ -41,6 +54,7 @@ def assess_risk(patient_data):
             "Monitor resting heart rate."
         )
 
+    # Smoking
     if patient_data.get("smoking"):
         score += RISK_RULES["smoking"]
         risk_factors.append("Smoking")
@@ -48,6 +62,7 @@ def assess_risk(patient_data):
             "Consider quitting smoking."
         )
 
+    # Alcohol
     if patient_data.get("alcohol"):
         score += RISK_RULES["alcohol"]
         risk_factors.append("Alcohol Consumption")
@@ -55,6 +70,7 @@ def assess_risk(patient_data):
             "Limit alcohol intake."
         )
 
+    # Physical Activity
     if patient_data.get("physical_activity") == "low":
         score += RISK_RULES["low_physical_activity"]
         risk_factors.append("Low Physical Activity")
@@ -62,6 +78,7 @@ def assess_risk(patient_data):
             "Increase regular physical activity."
         )
 
+    # Risk Level
     if score >= 60:
         risk_level = "High"
     elif score >= 30:

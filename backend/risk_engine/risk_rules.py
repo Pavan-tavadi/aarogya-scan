@@ -6,4 +6,5 @@ RISK_RULES = {
     "alcohol": 5,
     "low_physical_activity": 10,
     "high_heart_rate": 10,
+    "senior_age": 10,
 }
