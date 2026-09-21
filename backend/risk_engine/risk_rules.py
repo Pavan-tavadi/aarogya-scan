@@ -7,4 +7,5 @@ RISK_RULES = {
     "low_physical_activity": 10,
     "high_heart_rate": 10,
     "senior_age": 10,
+    "multiple_symptoms": 10
 }

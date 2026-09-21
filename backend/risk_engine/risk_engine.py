@@ -8,18 +8,24 @@ def assess_risk(patient_data):
 
     # Age
     age = patient_data.get("age")
+
     if age is not None and age >= 60:
         score += RISK_RULES["senior_age"]
+
         risk_factors.append("Age 60+")
+
         recommendations.append(
             "Regular preventive health checkups are recommended."
         )
 
     # BMI
     bmi = patient_data.get("bmi")
+
     if bmi is not None and bmi >= 30:
         score += RISK_RULES["high_bmi"]
+
         risk_factors.append("High BMI")
+
         recommendations.append(
             "Maintain healthy weight through diet and exercise."
         )
@@ -30,50 +36,96 @@ def assess_risk(patient_data):
 
     if systolic and diastolic:
         if systolic >= 140 or diastolic >= 90:
+
             score += RISK_RULES["high_blood_pressure"]
+
             risk_factors.append("High Blood Pressure")
+
             recommendations.append(
                 "Monitor blood pressure regularly."
             )
 
-    # Blood Glucose
+    # Blood Glucose (Prediabetes + Diabetes)
+
     glucose = patient_data.get("blood_glucose")
-    if glucose and glucose >= 126:
-        score += RISK_RULES["high_blood_glucose"]
-        risk_factors.append("High Blood Glucose")
-        recommendations.append(
-            "Check blood sugar levels regularly."
-        )
+
+    if glucose is not None:
+
+        if glucose >= 126:
+
+            score += 25
+
+            risk_factors.append("High Blood Glucose")
+
+            recommendations.append(
+                "Check blood sugar levels regularly."
+            )
+
+        elif glucose >= 100:
+
+            score += 10
+
+            risk_factors.append("Prediabetes Risk")
+
+            recommendations.append(
+                "Monitor blood sugar and maintain a healthy diet."
+            )
 
     # Heart Rate
     heart_rate = patient_data.get("heart_rate")
+
     if heart_rate and heart_rate > 100:
+
         score += RISK_RULES["high_heart_rate"]
+
         risk_factors.append("High Heart Rate")
+
         recommendations.append(
             "Monitor resting heart rate."
         )
 
     # Smoking
     if patient_data.get("smoking"):
+
         score += RISK_RULES["smoking"]
+
         risk_factors.append("Smoking")
+
         recommendations.append(
             "Consider quitting smoking."
         )
 
     # Alcohol
     if patient_data.get("alcohol"):
+
         score += RISK_RULES["alcohol"]
+
         risk_factors.append("Alcohol Consumption")
+
         recommendations.append(
             "Limit alcohol intake."
         )
 
+    # Symptoms
+    symptoms = patient_data.get("symptoms", [])
+
+    if len(symptoms) >= 3:
+
+        score += RISK_RULES["multiple_symptoms"]
+
+        risk_factors.append("Multiple Symptoms")
+
+        recommendations.append(
+            "Consider consulting a healthcare professional regarding persistent symptoms."
+        )
+
     # Physical Activity
     if patient_data.get("physical_activity") == "low":
+
         score += RISK_RULES["low_physical_activity"]
+
         risk_factors.append("Low Physical Activity")
+
         recommendations.append(
             "Increase regular physical activity."
         )
@@ -81,8 +133,10 @@ def assess_risk(patient_data):
     # Risk Level
     if score >= 60:
         risk_level = "High"
+
     elif score >= 30:
         risk_level = "Moderate"
+
     else:
         risk_level = "Low"
 

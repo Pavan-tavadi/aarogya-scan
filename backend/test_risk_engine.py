@@ -9,7 +9,12 @@ patient = {
     "heart_rate": 105,
     "smoking": True,
     "alcohol": False,
-    "physical_activity": "low"
+    "physical_activity": "low",
+    "symptoms": [
+        "fatigue",
+        "headache",
+        "chest pain"
+    ]
 }
 
 result = assess_risk(patient)
